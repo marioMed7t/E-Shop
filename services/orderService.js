@@ -138,6 +138,7 @@ exports.checkoutSession = asyncHandler(async (req, res, next) => {
   const totalOrderPrice = cartPrice + taxPrice + shippingPrice;
 
   // 3)check stripe checkout session
+
   const session = await stripe.checkout.sessions.create({
     line_items: [
       {
@@ -146,11 +147,14 @@ exports.checkoutSession = asyncHandler(async (req, res, next) => {
           product_data: {
             name: req.user.name,
           },
+
           unit_amount: totalOrderPrice * 100,
         },
+
         quantity: 1,
       },
     ],
+
     mode: "payment",
     success_url: `${req.protocol}://${req.get("host")}/orders`,
     cancel_url: `${req.protocol}://${req.get("host")}/cart`,
