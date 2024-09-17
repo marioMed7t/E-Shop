@@ -144,9 +144,9 @@ exports.checkoutSession = asyncHandler(async (req, res, next) => {
         price_data: {
           currency: "egp", // العملة
           product_data: {
-            name: req.user.name, // اسم المنتج (يمكنك استخدام اسم المستخدم هنا)
+            name: req.user.name,
           },
-          unit_amount: totalOrderPrice * 100, // المبلغ بالسنت (أي 100 قرش = 1 جنيه)
+          unit_amount: totalOrderPrice * 100,
         },
         quantity: 1,
       },
