@@ -12,6 +12,7 @@ const dbConnection = require("./config/database");
 const globalError = require("./middlewares/errorMiddleware");
 // Mount Route
 const mountRoutes = require("./routes/index");
+const { webhookCheckout } = require("./services/orderService");
 
 // connect with Database
 dbConnection();
@@ -25,6 +26,13 @@ app.options("*", cors());
 
 // compress all response
 app.use(compression());
+
+//checkout webhook
+app.post(
+  "/webhook-check-out",
+  express.raw({ type: "application/json" }),
+  webhookCheckout
+);
 
 // Middleware
 app.use(express.json());
