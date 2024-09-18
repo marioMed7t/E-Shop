@@ -206,18 +206,19 @@ const createCardOrder = async (session) => {
 // @route   POST /webhook-checkout
 // @access  Protected/User
 exports.webhookCheckout = asyncHandler(async (req, res, next) => {
-  const sig = req.headers["stripe-signature"];
-
   let event = req.body;
 
-  try {
-    event = stripe.webhooks.constructEvent(
-      req.body,
-      sig,
-      process.env.STRIPE_WEBHOOK_SECRET
-    );
-  } catch (err) {
-    return res.status(400).send(`Webhook Error: ${err.message}`);
+  if (process.env.STRIPE_WEBHOOK_SECRET) {
+    const sig = req.headers["stripe-signature"];
+    try {
+      event = stripe.webhooks.constructEvent(
+        req.body,
+        sig,
+        process.env.STRIPE_WEBHOOK_SECRET
+      );
+    } catch (err) {
+      return res.status(400).send(`Webhook Error: ${err.message}`);
+    }
   }
   if (event.type === "checkout.session.completed") {
     //  Create order
