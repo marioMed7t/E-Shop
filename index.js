@@ -29,7 +29,7 @@ app.use(compression());
 
 //checkout webhook
 app.post(
-  "/webhook-check-out",
+  "/webhook-checkout",
   express.raw({ type: "application/json" }),
   webhookCheckout
 );
